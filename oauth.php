@@ -18,7 +18,6 @@ try {
     throw new Exception("인증실패", (__LINE__ * -1));
   }
 
-
   // 토큰 요청
   $replace = array(
     '{grant_type}' => 'authorization_code',
@@ -52,43 +51,38 @@ try {
 
   // 프로필정보 저장 -- DB를 통해 저장하세요
 
-  echo '<pre>';
-  print_r($profile_data);
-  echo '</pre>';
+  /*  echo '<pre>';
+   print_r($profile_data);
+   echo '</pre>';
 
-  foreach ($profile_data as $key => $value) {
-    if ($key == 'properties') {
-      foreach ($value as $k => $v) {
-        echo $k . ' : ' . $v . '<br>';
-      }
-    } elseif ($key == 'kakao_account') {
-      foreach ($value as $k => $v) {
-        if ($k == 'profile') {
-          foreach ($v as $key => $item) {
-            echo $key . ' : ' . $item . '<br>';
-          }
-        } else {
-          if ($v == null) {
-            continue;
-          } else {
-            echo $k . ' : ' . $v . '<br>';
-          }
-        }
-      }
-    } else {
+   foreach ($profile_data as $key => $value) {
+     if ($key == 'properties') {
+       foreach ($value as $k => $v) {
+         echo $k . ' : ' . $v . '<br>';
+       }
+     } elseif ($key == 'kakao_account') {
+       foreach ($value as $k => $v) {
+         if ($k == 'profile') {
+           foreach ($v as $key => $item) {
+             echo $key . ' : ' . $item . '<br>';
+           }
+         } else {
+           if ($v == null) {
+             continue;
+           } else {
+             echo $k . ' : ' . $v . '<br>';
+           }
+         }
+       }
+     } else {
 
-      if ($key == "id") {
-        setcookie('id', time() + 3600 * 24 * 30);
-      } else {
-        echo $key . ' : ' . $value . '<br>';
-      }
-    }
-  }
-
-  exit;
-
-
-
+       if ($key == "id") {
+         setcookie('id', time() + 3600 * 24 * 30);
+       } else {
+         echo $key . ' : ' . $value . '<br>';
+       }
+     }
+   } */
 
   $is_member = true; // 기존회원인지(true) / 비회원인지(false) db 체크
 

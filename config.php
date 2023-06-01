@@ -1,11 +1,23 @@
 <?php
-// 설정파일 조정 필요
+
+/* php dotenv 사용을 위해 vendor 폴더 내부의 autoload.php require 함. */
+require_once "vendor/autoload.php";
+
+/* php dotenv 사용법 */
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// 카카오 클라이언트 ID 값, 비밀키 값
+$client_id = $_ENV['CLIENT_ID'];
+$client_secret = $_ENV['CLIENT_SECRET'];
+
+// 설정 파일 조정 필요
 $kakaoConfig = array(
   // ![수정필요] 카카오 REST API 키값 , 카카오 개발자 사이트 > 내 애플리케이션 > 요약정보에서 REST API 키값
-  'client_id' => '3cd11506144ebddfa116a07949c74bc8',
+  'client_id' => $client_id,
 
   // ![수정필요] 카카오 개발자 사이트 > 내 애플리케이션 > 카카오로그인 > 보안 에서 생성가능
-  'client_secret' => 'TDcQ7PP50j7J3BBMjy0PEbHIllWp7B2H',
+  'client_secret' => $client_secret,
 
   // 로그인 인증 URL
   'login_auth_url' => 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&state={state}',
