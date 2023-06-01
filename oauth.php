@@ -10,12 +10,13 @@ try {
 
   $code = $_GET['code'] ?? null;
   $state = $_GET['state'] ?? null;
-
   $cookieState = $_COOKIE['state'] ?? null;
+
 
   // code && state 체크
   if (empty($code) || empty($state) || $state != $cookieState) {
-    throw new Exception("인증실패", (__LINE__ * -1));
+    // throw new Exception("인증실패", (__LINE__ * -1));
+    echo new Exception("인증실패", (__LINE__ * -1));
   }
 
   // 토큰 요청
@@ -32,13 +33,14 @@ try {
   $token_data = json_decode(curl_kakao($login_token_url));
 
   if (empty($token_data)) {
-    throw new Exception("토큰요청 실패", (__LINE__ * -1));
+    // throw new Exception("토큰 요청 실패", (__LINE__ * -1));
+    echo new Exception("토큰 요청 실패", (__LINE__ * -1));
   }
 
   if (!empty($token_data->error) || empty($token_data->access_token)) {
-    throw new Exception("토큰인증 에러", (__LINE__ * -1));
+    // throw new Exception("토큰 인증 에러", (__LINE__ * -1));
+    echo new Exception("토큰 인증 에러", (__LINE__ * -1));
   }
-
 
   // 프로필 요청
   $header = array("Authorization: Bearer " . $token_data->access_token);
@@ -46,43 +48,44 @@ try {
   $profile_data = json_decode(curl_kakao($profile_url, $header));
 
   if (empty($profile_data) || empty($profile_data->id)) {
-    throw new Exception("프로필요청 실패", (__LINE__ * -1));
+    // throw new Exception("프로필 요청 실패", (__LINE__ * -1));
+    echo new Exception("프로필 요청 실패", (__LINE__ * -1));
   }
 
   // 프로필정보 저장 -- DB를 통해 저장하세요
 
-  /*  echo '<pre>';
-   print_r($profile_data);
-   echo '</pre>';
+  /* echo '<pre>';
+  print_r($profile_data);
+  echo '</pre>';
 
-   foreach ($profile_data as $key => $value) {
-     if ($key == 'properties') {
-       foreach ($value as $k => $v) {
-         echo $k . ' : ' . $v . '<br>';
-       }
-     } elseif ($key == 'kakao_account') {
-       foreach ($value as $k => $v) {
-         if ($k == 'profile') {
-           foreach ($v as $key => $item) {
-             echo $key . ' : ' . $item . '<br>';
-           }
-         } else {
-           if ($v == null) {
-             continue;
-           } else {
-             echo $k . ' : ' . $v . '<br>';
-           }
-         }
-       }
-     } else {
+  foreach ($profile_data as $key => $value) {
+    if ($key == 'properties') {
+      foreach ($value as $k => $v) {
+        echo $k . ' : ' . $v . '<br>';
+      }
+    } elseif ($key == 'kakao_account') {
+      foreach ($value as $k => $v) {
+        if ($k == 'profile') {
+          foreach ($v as $key => $item) {
+            echo $key . ' : ' . $item . '<br>';
+          }
+        } else {
+          if ($v == null) {
+            continue;
+          } else {
+            echo $k . ' : ' . $v . '<br>';
+          }
+        }
+      }
+    } else {
 
-       if ($key == "id") {
-         setcookie('id', time() + 3600 * 24 * 30);
-       } else {
-         echo $key . ' : ' . $value . '<br>';
-       }
-     }
-   } */
+      if ($key == "id") {
+        setcookie('id', time() + 3600 * 24 * 30);
+      } else {
+        echo $key . ' : ' . $value . '<br>';
+      }
+    }
+  } */
 
   $is_member = true; // 기존회원인지(true) / 비회원인지(false) db 체크
 
@@ -99,19 +102,25 @@ try {
   // 최종 성공 처리
   $res['rst'] = 'success';
 
+  echo "호호 101";
+
+
 } catch (Exception $e) {
   if (!empty($e->getMessage())) {
-    $res['msg'] = $e->getMessage();
+    echo $res['msg'] = $e->getMessage();
   }
   if (!empty($e->getMessage())) {
-    $res['code'] = $e->getCode();
+    echo $res['code'] = $e->getCode();
   }
+
+  echo "호호 112";
+
 }
 
 
 // 성공처리
 if ($res['rst'] == 'success') {
-
+  echo "<script>alert('테스트 성공')</script>";
 }
 
 // 실패처리
@@ -123,4 +132,4 @@ else {
 setcookie('state', '', time() - 3000); // 300 초동안 유효
 
 // header("Location: /arrayvalues");
-exit;
+// exit;
