@@ -9,7 +9,7 @@ $replace = array(
   '{state}' => md5(mt_rand(111111111, 999999999)),
 );
 
-setcookie('state', $replace['{state}'], time() + 300); // 300 초동안 유효
+setcookie('state', $replace['{state}'], time() + 300, '/'); // 300 초동안 유효
 
 $login_auth_url = str_replace(array_keys($replace), array_values($replace), $kakaoConfig['login_auth_url']);
 
